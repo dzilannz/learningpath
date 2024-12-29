@@ -1,0 +1,110 @@
+body {
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    padding: 20px;
+    background-color: #FAFAFA;
+}
+
+.dashboard {
+    max-width: 900px;
+    margin: 20px auto;
+    background: #FFF;
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+}
+
+h2 {
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.header-section {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.back-btn {
+    background-color: #ffd523;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    text-decoration: none;
+    display: inline-block;
+}
+
+.back-btn:hover {
+    background-color: #FFC107;
+}
+
+.add-btn {
+    background-color: #ffd523;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    text-decoration: none;
+}
+
+.add-btn:hover {
+    background-color: #2563eb;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    background: #FFF;
+}
+
+th, td {
+    border: 1px solid #ddd;
+    text-align: center;
+    padding: 10px;
+}
+
+th {
+    background-color: #ffd523;
+    color: #333;
+    font-weight: bold;
+}
+
+.approve-btn {
+    background-color: #FFD523;
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.approve-btn:hover {
+    background-color: #FFC107;
+}
+
+.file-link {
+    color: #3b82f6;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.file-link:hover {
+    text-decoration: underline;
+}
+
+.empty-state {
+    text-align: center;
+    font-style: italic;
+    color: #666;
+    margin-top: 20px;
+}

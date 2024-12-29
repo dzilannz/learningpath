@@ -1,0 +1,291 @@
+body {
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #fff;
+    color: #333;
+}
+.header-container {
+    width: 100%; /* Header membentang sepanjang layar */
+    display: flex;
+    justify-content: center; /* Memusatkan header */
+    position: relative; /* Pastikan posisinya tetap relatif terhadap elemen lain */
+    margin-top: 20px; /* Tetap di atas */
+}
+
+.header {
+    width: 70%; /* Header hanya mengambil 70% dari layar */
+    height: 60px;
+    background-color: #FFD523;
+    display: flex;
+    align-items: center;
+    justify-content: space-between; /* Pisahkan greeting dan ikon profil */
+    padding: 0 20px; /* Jarak kiri dan kanan */
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.25);
+    border-radius: 12px; /* Membuat sudut membulat */
+}
+
+.header .greeting {
+    font-size: 18px;
+    font-weight: bold;
+    color: #333;
+    white-space: nowrap; /* Hindari teks terpotong */
+}
+
+.header .greeting .student-name {
+    color: #000;
+    font-weight: bold;
+}
+
+.header .profile-menu {
+    display: flex;
+    align-items: center;
+    position: relative;
+}
+
+.header .profile-icon {
+    font-size: 24px;
+    color: #333;
+    cursor: pointer;
+}
+
+.menu {
+    display: none; /* Default tersembunyi */
+    position: absolute;
+    right: 0;
+    top: 60px; /* Tepat di bawah header */
+    background-color: #fff;
+    border: 1px solid #ddd;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 10px;
+    border-radius: 5px;
+    z-index: 10; /* Pastikan menu selalu di atas */
+}
+
+.menu a.logout {
+    text-decoration: none;
+    color: #333;
+    font-size: 16px;
+    padding: 10px 10px;
+    display: block;
+}
+
+.menu a.logout:hover {
+    background-color: #f0f0f0;
+    border-radius: 4px;
+}
+
+.content {
+    margin-top: 10px;
+    padding: 20px;
+    margin-left: 60px;
+}
+.content .title {
+    font-size: 24px;
+    margin-bottom: 40px;
+    font-weight: bold;
+    text-align: center;
+}
+.progress-section {
+    display: flex;
+    align-items: center;
+    margin-top: 60px;
+    margin-bottom: 80px;
+    margin-left: 80px;
+}
+.progress-section .label {
+    font-size: 18px;
+    font-weight: bold;
+    margin-right: 20px;
+    min-width: 100px;
+}
+.progress-bar {
+    display: flex;
+    align-items: center;
+    flex: 2;
+}
+.progress-bar div {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: #fff;
+    border: 5px solid #FFD523;
+    margin-right: 90px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    cursor: pointer;
+}
+.progress-bar div.completed {
+    background-color: #FFD523;
+}
+.progress-bar div .label {
+    font-weight: lighter;
+    margin-top: 65px;
+    margin-left:30px;
+    color: #000;
+    font-size: 12px;
+    text-align: center;
+}
+.progress-bar div::after {
+    content: '';
+    width: 100px; /* Panjang garis hitam */
+    height: 4px;
+    background-color: #FFD523;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    left: 100%;
+    z-index: -1;
+}
+
+.progress-bar div:last-child::after {
+    width: 0 !important; /* Pastikan tidak ada garis untuk lingkaran terakhir */
+    height: 0 !important; /* Tambahan untuk benar-benar menghilangkan */
+}
+
+
+.tooltip {
+    visibility: hidden;
+    background-color: black;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px;
+    position: absolute;
+    z-index: 1;
+    bottom: 150%;
+    left: 50%;
+    transform: translateX(-50%);
+    white-space: nowrap;
+}
+
+.progress-bar div:hover .tooltip {
+    visibility: visible;
+}
+
+ /* Modal styles */
+ .modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+.modal-content {
+    background-color: #fefefe;
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 350px;
+    text-align: center;
+    border-radius: 8px;
+}
+ .close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.modal-content h2 {
+    font-size: 20px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+.modal-content input[type="file"] {
+    border: 2px solid #FFD523;
+    border-radius: 10px;
+    padding: 8px;
+    cursor: pointer;
+    font-size: 14px;
+    margin-bottom: 20px;
+}
+
+.modal-content button {
+    background-color: #FFD523;
+    color: #FFF;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s;
+}
+
+.modal-content button:hover {
+    background-color: #FFC107;
+}
+
+/* Modal Notifikasi */
+#success-modal .modal-content {
+    background-color: #fff;
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #FFD523;
+    text-align: center;
+    border-radius: 8px;
+    width: 300px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.25);
+}
+#success-modal .modal-content h2 {
+    font-size: 18px;
+    color: #333;
+    margin-bottom: 20px;
+}
+#success-modal .modal-content button {
+    background-color: #FFD523;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+}
+#success-modal .modal-content button:hover {
+    background-color: #FFC107;
+}
+
+.progress-section .label a {
+    text-decoration: none;
+    color: inherit;
+    transition: color 0.3s ease; /* Animasi transisi */
+}
+
+.progress-section .label a:hover {
+    color: #FFD523; /* Ubah warna teks saat hover */
+    text-decoration: underline; /* Garis bawah saat hover */
+}
+
+.progress-section .label a:visited {
+    color: #FFD523; /* Warna teks setelah link diklik */
+    text-decoration: none; /* Hilangkan garis bawah jika ada */
+}
+
+.footer p{
+    font-size: 14px;
+}
+
+.footer {
+    width: 100%; /* Pastikan lebar penuh */
+    height: 72px;
+    background-color: #FFD523;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: fixed;
+    bottom: 0; /* Tetap berada di bawah */
+    left: 0; /* Mulai dari kiri */
+    padding: 0 20px; /* Jarak dalam */
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.25);
+    z-index: 100; /* Pastikan footer di atas elemen lain */
+}

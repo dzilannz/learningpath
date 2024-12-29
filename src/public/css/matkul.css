@@ -1,0 +1,92 @@
+body {
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #F9F9F9;
+    color: #333;
+    display: flex;
+    justify-content: center;
+    height: 100vh;
+}
+
+.container {
+    width: 80%;
+    background-color: #FFF;
+    border-radius: 15px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    text-align: center;
+    margin-top: 50px; /* Tambahkan margin atas */
+}
+
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: center; /* Untuk memusatkan teks */
+    position: relative; /* Untuk mengatur posisi elemen secara relatif */
+    margin-bottom: 20px;
+}
+
+.header a {
+    position: absolute;
+    left: 0; /* Menempatkan ikon back di kiri */
+    text-decoration: none;
+    color: #333;
+    font-size: 20px;
+    margin-left: 10px;
+    transition: color 0.3s;
+}
+
+.header a:hover {
+    color: #FFD523;
+}
+
+.header .title {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.buttons {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 20px;
+}
+
+.button {
+    background-color: #FFD523;
+    color: #333;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 8px;
+    font-weight: bold;
+    margin-left: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.button:hover {
+    background-color: #FFC107;
+}
+
+.table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.table th,
+.table td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: left;
+}
+
+.table th {
+    background-color: #FFD523;
+    color: #333;
+}
+
+.empty-state {
+    font-style: italic;
+    color: #888;
+    margin: 20px 0;
+}
