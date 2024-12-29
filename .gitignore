@@ -1,0 +1,15 @@
+# Abaikan folder dan file MySQL
+mysql/
+mysql/data/
+mysql/data_backup/
+mysql/data/*.sock
+mysql/data_backup/*.sock
+
+# Abaikan file sementara atau log
+*.log
+*.pid
+*.index
+
+# Abaikan folder build atau cache (opsional)
+build/
+node_modules/
