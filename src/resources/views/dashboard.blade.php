@@ -111,8 +111,11 @@
             <div class="modal-content">
                 <span class="close" onclick="closeModal()">&times;</span>
                 <h2 id="modal-title">Submit Proof</h2>
-                <form id="submit-form" action="" method="POST" enctype="multipart/form-data">
+                <form id="submit-form" action="{{ route('ibtitah.submit') }}" method="POST" enctype="multipart/form-data">
                     @csrf
+                    <!-- Input kategori hidden -->
+                    <input type="hidden" id="kategori-input" name="kategori" value="">
+                    <input type="hidden" name="mahasiswa_id" value="{{ $mahasiswa->id }}">
                     <input type="file" name="proof_file" required>
                     <button type="submit">Submit</button>
                 </form>

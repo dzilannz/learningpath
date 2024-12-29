@@ -1,3 +1,4 @@
+// Fungsi untuk menampilkan/menyembunyikan menu
 function toggleMenu() {
     const menu = document.getElementById('menu');
     menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
@@ -12,23 +13,36 @@ window.addEventListener('click', function (e) {
     }
 });
 
+// Fungsi untuk membuka modal dan mengatur kategori secara dinamis
 function openModal(title) {
-    const form = document.getElementById('submit-form');
-    form.action = `/dashboard/{{ $mahasiswa->id }}/submit/${title.toLowerCase()}`; // Set kategori ke lowercase
+    // Ambil elemen input hidden untuk kategori
+    const kategoriInput = document.getElementById('kategori-input');
+
+    // Set nilai kategori ke input hidden
+    kategoriInput.value = title.toLowerCase();
+
+    // Debug log untuk memastikan nilai kategori
+    console.log(`Kategori diatur: ${kategoriInput.value}`);
+
+    // Atur judul modal
     document.getElementById('modal-title').innerText = `Submit ${title}`;
+
+    // Tampilkan modal
     document.getElementById('modal').style.display = "block";
 }
 
+// Fungsi untuk menutup modal
 function closeModal() {
     document.getElementById('modal').style.display = "none";
 }
 
+// Tambahkan event listener untuk form submit
 document.getElementById('submit-form').addEventListener('submit', function (event) {
     event.preventDefault(); // Mencegah reload halaman
 
     const form = event.target;
 
-    // Simulasi pengiriman dengan Ajax (Opsional)
+    // Kirim data form menggunakan Fetch API
     fetch(form.action, {
         method: form.method,
         body: new FormData(form),
@@ -40,27 +54,24 @@ document.getElementById('submit-form').addEventListener('submit', function (even
             if (response.ok) {
                 // Tampilkan modal notifikasi sukses
                 document.getElementById('success-modal').style.display = "block";
+
                 // Tutup modal submit
                 document.getElementById('modal').style.display = "none";
+
+                // Bersihkan input file setelah submit
+                form.reset();
             } else {
                 alert("Error submitting the proof!");
             }
         })
         .catch(err => {
-            console.error(err);
+            console.error('Error:', err);
             alert("Something went wrong!");
         });
 });
 
-// Fungsi untuk menutup modal notifikasi
+// Fungsi untuk menutup modal notifikasi sukses
 function closeSuccessModal() {
     document.getElementById('success-modal').style.display = "none";
-    window.location.reload(); // Reload halaman setelah ditutup
+    window.location.reload(); // Reload halaman setelah modal notifikasi ditutup
 }
-
-
-
-
-
-
-

@@ -16,28 +16,31 @@ services:
 
   # Database Service
   db:
-    image: mysql
-    container_name: mysql
+    image: postgres
+    container_name: postgres
     volumes:
-      - ./mysql/data:/var/lib/mysql
+      - ./postgresql/data:/var/lib/postgresql/data
     ports:
-      - "3306:3306"
-    environment:
-      MYSQL_DATABASE: learningpath
-      MYSQL_ROOT_PASSWORD: password
+      - "5432:5432"
+    environment: 
+      POSTGRES_DB: pgsql
+      POSTGRES_USER: root 
+      POSTGRES_PASSWORD: password 
 
-  # phpMyAdmin Service
-  phpmyadmin:
-    image: phpmyadmin/phpmyadmin
-    container_name: phpmyadmin
-    ports:
-      - "3400:80"
-    depends_on:
-      - db
+  pgadmin:
+      image: dpage/pgadmin4
+      container_name: pgAdmin
+      ports:
+        - "5050:80"
+      depends_on:
+        - db 
+      environment:
+        PGADMIN_DEFAULT_EMAIL: dzilannaziraz@gmail.com
+        PGADMIN_DEFAULT_PASSWORD: password 
 
   # Application Service
   app:
-    container_name: learningpath
+    container_name: tes
     build: 
       context: ./php
       dockerfile: Dockerfile

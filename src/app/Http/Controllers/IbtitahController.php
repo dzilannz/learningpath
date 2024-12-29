@@ -5,74 +5,69 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Ibtitah;
+use App\Models\Mahasiswa;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 class IbtitahController extends Controller
 {
-    // LearningPathController - submitProof
-    public function submitProof(Request $request, $mahasiswaId, $kategori)
-    {
-        $validCategories = ['tilawah', 'tahfidz', 'ibadah'];
-        if (!in_array($kategori, $validCategories)) {
-            return back()->withErrors(['error' => 'Invalid category.']);
+        // LearningPathController - submitProof
+        public function submitProof(Request $request)
+        {
+            Log::info('Submit proof dimulai.');
+
+            // Validasi input
+            $validator = Validator::make($request->all(), [
+                'proof_file' => 'required|file|mimes:pdf,jpg,jpeg,png|max:2048',
+                'kategori' => 'required|string|in:tilawah,tahfidz,ibadah',
+                'mahasiswa_id' => 'required|exists:mahasiswa,id',
+            ]);
+
+            if ($validator->fails()) {
+                Log::info('Validasi gagal: ' . json_encode($validator->errors()));
+                return redirect()->back()->withErrors($validator)->withInput();
+            }
+
+            // Ambil mahasiswa
+            $mahasiswa = Mahasiswa::find($request->input('mahasiswa_id'));
+
+            if (!$mahasiswa) {
+                Log::info('Mahasiswa tidak ditemukan.');
+                return redirect()->back()->with('error', 'Mahasiswa tidak ditemukan.');
+            }
+
+            Log::info('Mahasiswa ditemukan: ' . $mahasiswa->id);
+
+            // Upload file ke storage
+            $file = $request->file('proof_file');
+            $filePath = $file->store('ibtitah/proofs', 'public');
+            Log::info('File berhasil diunggah ke: ' . $filePath);
+
+            // Update submission
+            $existingSubmission = Ibtitah::firstOrNew(['mahasiswa_id' => $mahasiswa->id]);
+            $kategori = $request->input('kategori');
+
+            switch ($kategori) {
+                case 'tilawah':
+                    $existingSubmission->tilawah = true;
+                    break;
+                case 'tahfidz':
+                    $existingSubmission->tahfidz = true;
+                    break;
+                case 'ibadah':
+                    $existingSubmission->ibadah = true;
+                    break;
+            }
+            $existingSubmission->kategori = $kategori;
+            $existingSubmission->file_path = $filePath;
+            $existingSubmission->status = 'pending';
+            $existingSubmission->save();
+
+            Log::info('Data berhasil disimpan: ' . json_encode($existingSubmission));
+
+            return redirect()->back()->with('success', 'File berhasil diunggah, menunggu persetujuan admin.');
         }
-
-        $request->validate([
-            'proof_file' => 'required|file|mimes:pdf,jpg,png|max:2048',
-        ]);
-
-        // Simpan file ke storage
-        $filePath = $request->file('proof_file')->store('proofs', 'public');
-
-        // Buat entri baru berdasarkan kategori
-        Ibtitah::create([
-            'mahasiswa_id' => $mahasiswaId,
-            'kategori' => $kategori,
-            'file_path' => $filePath,
-            'status' => 'pending',
-            $kategori => false, // Tandai kategori terkait sebagai false
-        ]);
-
-        return back()->with('success', 'Proof submitted successfully! File menunggu persetujuan admin.');
-    }
-
-    
-    public function approve($id)
-    {
-        $ibtitah = Ibtitah::findOrFail($id);
-
-        // Perbarui status ke approved
-        $ibtitah->update([
-            'status' => 'approved',
-        ]);
-
-        return back()->with('success', ucfirst($ibtitah->kategori) . ' approved successfully!');
-    }
-
-    
-
-
-
-    public function showPending()
-    {
-        $ibtitahs = Ibtitah::with('mahasiswa')
-            ->where('status', 'pending')
-            ->get();
-
-        return view('dashboard_admin', compact('ibtitahs'));
-    }
-
-    public function showAdminProfile()
-    {
-        // Ambil data admin dari session
-        $adminName = session('user.name', 'Admin'); // Fallback ke 'Admin' jika session tidak ditemukan
-    
-        // Ambil data Ibtitah dengan status 'pending'
-        $ibtitahs = Ibtitah::with('mahasiswa')->where('status', 'pending')->get();
-    
-        // Kirim data ke view
-        return view('admin_profile', compact('adminName', 'ibtitahs'));
-    }    
-    
+     
 
 }

@@ -10,22 +10,42 @@ class AdminController extends Controller
 {
     public function showPending()
     {
-        $ibtitahs = Ibtitah::with('mahasiswa')->where('status', 'pending')->get();
-        return view('admin_profile', compact('ibtitahs'));
-    }
-    public function showAdminProfile()
-    {
-        $ibtitahs = Ibtitah::with('mahasiswa')->where('status', 'pending')->get();
-    
+        $ibtitahs = Ibtitah::with('mahasiswa')->get(); // Mengambil semua data
         return view('admin_profile', compact('ibtitahs'));
     }
     
-    
-    public function showIbtitahForm()
+   public function showAdminProfile()
     {
-        return view('ibtitah_form'); // Mengarahkan ke ibtitah_form.blade.php   
+        $ibtitahs = Ibtitah::with('mahasiswa')->get(); // Mengambil semua data, tanpa filter status
+        return view('admin_profile', compact('ibtitahs'));
     }
 
+
+    public function approve($id, $kategori)
+    {
+        $ibtitah = Ibtitah::findOrFail($id);
+
+        $ibtitah->status = 'approved';
+        switch ($kategori) {
+            case 'tilawah':
+                $ibtitah->tilawah = true;
+                break;
+            case 'tahfidz':
+                $ibtitah->tahfidz = true;
+                break;
+            case 'ibadah':
+                $ibtitah->ibadah = true;
+                break;
+        }
+        $ibtitah->save();
+
+        // Flash message untuk mahasiswa
+        session()->flash('success', "Kategori {$kategori} telah disetujui untuk mahasiswa.");
+
+        return redirect()->back()->with('success', "Ibtitah kategori '{$kategori}' berhasil disetujui!");
+    }
+
+    
     public function storeIbtitah(Request $request)
     {
         // Validasi input

@@ -39,10 +39,14 @@
                             <td>{{ ucfirst($ibtitah->kategori) }}</td>
                             <td>{{ ucfirst($ibtitah->status) }}</td>
                             <td>
-                            <form action="{{ route('ibtitah.approve', ['id' => $ibtitah->id, 'kategori' => $ibtitah->kategori]) }}" method="POST">
-                                @csrf
-                                <button type="submit" class="approve-btn">Approve</button>
-                            </form>
+                                @if ($ibtitah->status === 'approved')
+                                    <button class="done-btn" disabled>Done</button>
+                                @else
+                                    <form action="{{ route('ibtitah.approve', ['id' => $ibtitah->id, 'kategori' => $ibtitah->kategori]) }}" method="POST">
+                                        @csrf
+                                        <button type="submit" class="approve-btn">Approve</button>
+                                    </form>
+                                @endif
                             </td>
                         </tr>
                     @endforeach

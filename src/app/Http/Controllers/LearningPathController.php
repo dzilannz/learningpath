@@ -37,30 +37,7 @@ class LearningPathController extends Controller
     }
 
     // LearningPathController - submitProof
-    public function submitProof(Request $request, $mahasiswaId, $kategori)
-    {
-        $validCategories = ['tilawah', 'tahfidz', 'ibadah'];
-        if (!in_array($kategori, $validCategories)) {
-            return back()->withErrors(['error' => 'Invalid category.']);
-        }
-    
-        $request->validate([
-            'proof_file' => 'required|file|mimes:pdf,jpg,png|max:2048',
-        ]);
-    
-        // Simpan file ke storage
-        $filePath = $request->file('proof_file')->store('proofs', 'public');
-    
-        // Tambahkan data ke database sebagai `pending`
-        Ibtitah::create([
-            'mahasiswa_id' => $mahasiswaId,
-            'kategori' => $kategori,
-            'file_path' => $filePath,
-            'status' => 'pending', // Menunggu approval
-        ]);
-    
-        return back()->with('success', 'Proof submitted successfully! File menunggu persetujuan admin.');
-    }
+
     
 
     public function showMatkul($semesterId, Request $request)
